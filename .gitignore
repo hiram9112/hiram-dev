@@ -1,0 +1,15 @@
+# Dependencies
+/node_modules/
+
+# Next.js generated files
+/.next/
+
+# Environment variables
+.env*
+
+# TypeScript generated files
+*.tsbuildinfo
+next-env.d.ts
+
+# Private keys / certificates
+*.pem
