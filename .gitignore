@@ -13,3 +13,6 @@ next-env.d.ts
 
 # Private keys / certificates
 *.pem
+
+# Playwright generated files
+/test-results/

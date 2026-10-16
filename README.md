@@ -17,6 +17,7 @@ pnpm install
 pnpm dev
 
 ## Documentation
+
 - docs/product.md — product definition.
 - docs/engineering.md — engineering decisions.
 - AGENTS.md — repository-wide instructions for coding agents.
