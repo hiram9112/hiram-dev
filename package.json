@@ -13,7 +13,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "verify": "pnpm format:check && pnpm typecheck && pnpm lint && pnpm test:e2e && pnpm build"
   },
   "dependencies": {
     "next": "16.4.1",

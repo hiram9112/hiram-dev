@@ -91,11 +91,10 @@ Before considering a code change complete, run the relevant project checks.
 For changes that can affect the application as a whole, the expected checks are:
 
 ```bash
-pnpm typecheck
-pnpm lint
-pnpm test:e2e
-pnpm build
+pnpm verify
 ```
+
+`pnpm verify` is the project-wide verification entry point and should remain aligned with the current quality gates defined in `package.json`.
 
 If a check cannot be run, state which one and why.
 
