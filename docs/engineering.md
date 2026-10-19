@@ -38,9 +38,9 @@ If this document does not define a required decision:
 
 - Node.js 24 LTS.
 - pnpm as package manager.
-- The Node.js major version will be pinned in the repository.
-- The pnpm version will be pinned through the `packageManager` field in `package.json`.
-- The lockfile will be committed.
+- The Node.js major version is pinned in the repository.
+- The pnpm version is pinned through the `packageManager` field in `package.json`.
+- The lockfile is committed.
 
 ## Application stack
 
@@ -100,22 +100,30 @@ The project must provide:
 - TypeScript type checking;
 - production build verification.
 
-Expected project commands:
+The project-wide verification entry point is:
 
 ```bash
-pnpm lint
-pnpm typecheck
-pnpm build
+pnpm verify
 ```
+
+It runs:
+
+1. formatting verification;
+2. TypeScript type checking;
+3. linting;
+4. Playwright end-to-end tests;
+5. production build verification.
+
+Individual checks remain available through their dedicated scripts when needed.
 
 Formatting should be deterministic and should not require repeated manual style decisions.
 
 ## Testing
 
-- Playwright will be configured from the beginning.
-- The initial automated test will be a minimal smoke test confirming that the home page loads successfully.
+- Playwright is configured for end-to-end testing.
+- The initial automated test is a minimal smoke test confirming that the home page loads successfully.
 - Additional end-to-end tests should be added for behavior that merits them.
-- A unit-test framework is not part of the initial setup and should only be introduced if meaningful application logic appears.
+- A unit-test framework is not part of the current stack and should only be introduced if meaningful application logic appears.
 
 Testing effort should remain proportional to the behavior and risk of the site.
 
@@ -135,30 +143,46 @@ Experimental visual work must not make the content inaccessible.
 
 ## Continuous integration
 
-GitHub Actions will verify relevant pushes and pull requests.
+GitHub Actions verifies every push and every pull request targeting main.
 
-The initial pipeline should run:
+The pipeline runs:
 
-1. dependency installation;
-2. type checking;
-3. linting;
-4. Playwright smoke test;
-5. production build.
+1. dependency installation from the committed lockfile;
+2. formatting verification;
+3. TypeScript type checking;
+4. linting;
+5. Playwright end-to-end tests;
+6. production build verification.
 
-CI should use the same pinned runtime and package manager as local development.
+CI uses the same pinned Node.js and pnpm versions as local development.
+
+The workflow runs the project-wide verification command:
+
+```bash
+pnpm verify
+```
+
+## Repository workflow
+
+main is protected.
+
+Changes must reach main through a pull request.
+
+Merging requires the verify GitHub Actions check to pass.
+
+Force pushes and branch deletion are blocked on main.
+
+No approval is required while the repository is maintained by a single developer.
 
 ## Deployment
 
-Vercel is the initial deployment target.
-
-Reasons:
-
-- first-class support for Next.js;
-- preview deployments for branches and pull requests;
-- minimal operational overhead;
-- infrastructure deployment is not a learning objective of this project.
-
-This decision may be revisited only if a later product or technical requirement justifies it.
+- Vercel is the deployment and hosting platform.
+- The GitHub repository is connected directly to Vercel.
+- `main` is the production branch.
+- Non-production branches and pull requests use preview deployments.
+- Vercel handles dependency installation, Next.js builds and deployments.
+- GitHub Actions is responsible for verification; Vercel is responsible for deployment.
+- No Vercel-specific application dependency or CLI is part of the current stack.
 
 ## Deferred decisions
 
