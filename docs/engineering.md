@@ -62,7 +62,7 @@ Server Components should remain the default where no client-side behavior is req
 
 Client Components should be introduced only when interaction, browser APIs, local state or animation requirements justify them.
 
-The final component structure is intentionally deferred until the selected experience makes the composition clear.
+The home page, evidence content, conceptual cutaway and CV are Server Components. Client behavior is limited to a scroll controller and the CV print action. Shared factual content and verified external links live in `src/lib/content.ts`.
 
 ## Styling
 
@@ -74,22 +74,13 @@ The visual system should remain specific to the project rather than being shaped
 
 ## Motion and advanced graphics
 
-No animation, smooth-scroll, WebGL or 3D library is selected yet.
+The V1 cutaway uses CSS 3D transforms, driven by native scroll position through a small `requestAnimationFrame` controller. CSS custom properties synchronize plane separation, rotation and narrative crossfades. Scroll and resize listeners are cleaned up on unmount; no continuous animation loop runs when idle.
 
-These decisions are intentionally deferred until the narrative and visual direction are selected.
+No animation or smooth-scroll dependency is required for this composition. Native wheel, touch, anchor navigation and scroll restoration remain intact; there is no scroll interception, smoothing or snapping.
 
-Potential future needs may include:
+The enhancement respects `prefers-reduced-motion` and switches to static content on short viewports. Essential evidence remains server-rendered and readable without animation or JavaScript. Inactive animated chapters are excluded from focus and the accessibility tree; the static alternative exposes every chapter.
 
-- scroll-driven animation;
-- timeline orchestration;
-- SVG animation;
-- Canvas or WebGL;
-- shaders;
-- smooth scrolling.
-
-A dependency should only be introduced when the selected experience requires it.
-
-Simple local transitions should prefer platform capabilities and CSS where appropriate.
+Sora and Source Sans 3 are self-hosted through `next/font/local`. Font loading and production builds do not depend on a third-party font service.
 
 ## Code quality
 
@@ -121,7 +112,7 @@ Formatting should be deterministic and should not require repeated manual style 
 ## Testing
 
 - Playwright is configured for end-to-end testing.
-- The initial automated test is a minimal smoke test confirming that the home page loads successfully.
+- Playwright covers page loading, direct layer navigation, scroll reversibility, keyboard access, the reduced-motion/static alternative and phone layout bounds.
 - Additional end-to-end tests should be added for behavior that merits them.
 - A unit-test framework is not part of the current stack and should only be introduced if meaningful application logic appears.
 
@@ -186,14 +177,4 @@ No approval is required while the repository is maintained by a single developer
 
 ## Deferred decisions
 
-The following technical decisions are intentionally not defined yet:
-
-- motion implementation strategy;
-- animation library;
-- smooth-scroll library;
-- SVG / Canvas / WebGL requirements;
-- Three.js or other graphics libraries;
-- shader implementation;
-- final component structure.
-
-These decisions depend on the selected experience and should only be introduced when the implementation requires them.
+WebGL, Canvas, shaders and third-party animation infrastructure are not part of V1. Revisit them only when a future experience requires capabilities beyond the current native-scroll and CSS composition.
