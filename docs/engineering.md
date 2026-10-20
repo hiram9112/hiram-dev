@@ -74,22 +74,18 @@ The visual system should remain specific to the project rather than being shaped
 
 ## Motion and advanced graphics
 
-No animation, smooth-scroll, WebGL or 3D library is selected yet.
+V1 uses native SVG and CSS for its conceptual, layered BeneHom illustration.
+A small Client Component follows scroll position using a passive listener and
+requestAnimationFrame, updating the selected layer only as the narrative changes.
+CSS transitions handle the visual change; native anchor navigation also provides
+direct access to each chapter. Native CSS smooth scrolling is disabled when reduced
+motion is requested, as are animated layer transitions.
 
-These decisions are intentionally deferred until the narrative and visual direction are selected.
+No animation, smooth-scroll, Canvas, WebGL or 3D dependency is required. This keeps
+the illustrated experience within the existing stack while preserving readable,
+server-rendered evidence independently of the interaction.
 
-Potential future needs may include:
-
-- scroll-driven animation;
-- timeline orchestration;
-- SVG animation;
-- Canvas or WebGL;
-- shaders;
-- smooth scrolling.
-
-A dependency should only be introduced when the selected experience requires it.
-
-Simple local transitions should prefer platform capabilities and CSS where appropriate.
+Manrope and DM Sans are self-hosted through `next/font/google`.
 
 ## Code quality
 
@@ -121,7 +117,7 @@ Formatting should be deterministic and should not require repeated manual style 
 ## Testing
 
 - Playwright is configured for end-to-end testing.
-- The initial automated test is a minimal smoke test confirming that the home page loads successfully.
+- End-to-end checks cover page loading and direct/keyboard chapter navigation on desktop and phone, including reduced-motion behavior.
 - Additional end-to-end tests should be added for behavior that merits them.
 - A unit-test framework is not part of the current stack and should only be introduced if meaningful application logic appears.
 
@@ -186,14 +182,6 @@ No approval is required while the repository is maintained by a single developer
 
 ## Deferred decisions
 
-The following technical decisions are intentionally not defined yet:
-
-- motion implementation strategy;
-- animation library;
-- smooth-scroll library;
-- SVG / Canvas / WebGL requirements;
-- Three.js or other graphics libraries;
-- shader implementation;
-- final component structure.
-
-These decisions depend on the selected experience and should only be introduced when the implementation requires them.
+Advanced graphics, animation orchestration libraries and smooth-scroll libraries
+remain outside V1. Reconsider them only when a future experience requires more than
+the current SVG/CSS implementation.
